@@ -1,0 +1,129 @@
+![Server Image](/Server.png)
+
+
+Simple Web Stack Design
+Scenario:
+ A user wants to access the website www.foobar.com. The domain is configured to point to a single server running a LAMP-like stack (Linux, Nginx, application server, MySQL, and application files).
+Infrastructure Components
+Server
+
+
+A physical or virtual machine with IP 8.8.8.8.
+
+
+Hosts the web server, application server, database, and application files.
+
+
+Domain Name
+
+
+foobar.com with a www subdomain pointing to the server's IP using a DNS record.
+
+
+Allows users to access the site with a human-friendly name instead of an IP.
+
+
+DNS Record for www
+
+
+Type: A record (Address record).
+
+
+Maps www.foobar.com → 8.8.8.8.
+
+
+Web Server (Nginx)
+
+
+Listens for incoming HTTP/HTTPS requests from users.
+
+
+Serves static files (HTML, CSS, JS, images) directly.
+
+
+Passes dynamic requests to the application server.
+
+
+Application Server
+
+
+Processes business logic for the site (e.g., Django, Flask, PHP-FPM).
+
+
+Reads/writes data from the database and generates dynamic responses.
+
+
+Application Files (Codebase)
+
+
+All source code required to run the website (HTML templates, backend logic, CSS, JS, etc.).
+
+
+Database (MySQL)
+
+
+Stores structured data (user accounts, posts, products, etc.).
+
+
+Queried by the application server to retrieve or update data.
+
+
+Communication Protocol
+
+
+The user’s browser communicates with the web server via HTTP or HTTPS over TCP/IP.
+
+
+
+Flow of a Request
+User types www.foobar.com in their browser.
+
+
+DNS resolves www.foobar.com to 8.8.8.8.
+
+
+The browser sends an HTTP request to the server.
+
+
+Nginx (web server) receives the request.
+
+
+If the request is for a static file, it serves it directly.
+
+
+If dynamic, Nginx forwards it to the application server.
+
+
+The application server runs the backend logic.
+
+
+If data is needed, it queries the MySQL database.
+
+
+The application server sends the processed response back to Nginx.
+
+
+Nginx sends the response to the user's browser.
+
+
+
+Issues with This Infrastructure
+SPOF (Single Point of Failure)
+
+
+If the server goes down, the entire website becomes unavailable.
+
+
+Downtime During Maintenance
+
+
+Updating the application or restarting the web server will cause temporary downtime.
+
+
+Scalability Limits
+
+
+Only one server is handling all requests.
+
+
+Cannot handle large spikes in traffic without performance degradation.

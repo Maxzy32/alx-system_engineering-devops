@@ -1,0 +1,84 @@
+![Server Image](/Server2.png)
+
+
+Distributed Web Infrastructure for www.foobar.com
+
+Infrastructure Components
+
+    3 servers
+
+        Server 1: Load Balancer (HAProxy)
+
+        Server 2: Web Server (Nginx) + Application Server (your code base)
+
+        Server 3: Database Server (MySQL — Primary-Replica setup)
+
+  Why each element is added
+
+    Load Balancer (HAProxy)
+
+        Distributes incoming traffic across multiple servers to avoid overload and improve availability.
+
+        Helps reduce downtime by redirecting traffic if one backend server fails.
+
+    Web Server (Nginx)
+
+        Handles HTTP requests from the load balancer.
+
+        Serves static content (HTML, CSS, JS) and passes dynamic requests to the application server.
+
+    Application Server
+
+        Runs your application logic (e.g., Django, Flask).
+
+        Processes requests and interacts with the database.
+
+    Database (MySQL Primary-Replica)
+
+        Primary node handles write operations.
+
+        Replica node handles read operations.
+
+        Improves performance and provides redundancy.
+
+Load Balancer Distribution Algorithm
+
+    Round Robin (example algorithm)
+
+        Distributes requests sequentially to each server in turn.
+
+        Simple and ensures all servers get roughly equal load.
+
+Active-Active vs Active-Passive
+
+    Active-Active: Both backend servers actively handle traffic at the same time.
+
+    Active-Passive: Only one server handles traffic, the other is on standby to take over in case of failure.
+
+    In this case: Active-Active is recommended for better resource utilization.
+
+Primary-Replica Database Cluster
+
+    Primary node: Accepts both read and write requests. Updates are replicated to the Replica.
+
+    Replica node: Accepts only read requests to offload work from the Primary.
+
+    Improves performance and provides data redundancy.
+
+Issues with this setup
+
+    SPOF (Single Point of Failure)
+
+        If the load balancer fails, the entire site goes down.
+
+        If the database primary fails without failover, writes stop working.
+
+    Security issues
+
+        No firewall → servers are exposed to the internet.
+
+        No HTTPS → data in transit is not encrypted.
+
+    No monitoring
+
+        Failures or performance issues may go undetected without tools like Nagios, Prometheus, or Datadog.

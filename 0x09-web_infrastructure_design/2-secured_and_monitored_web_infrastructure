@@ -1,0 +1,69 @@
+![Server Image](/Server3.png)
+
+
+Secured and Monitored Web Infrastructure – Explanation
+Why each additional element is added
+
+    Firewalls (3)
+
+        One for each server (Load Balancer, Application Server, Database Server).
+
+        They control incoming and outgoing traffic based on predefined rules, preventing unauthorized access.
+
+    SSL Certificate
+
+        Enables HTTPS to encrypt traffic between the user’s browser and the web server, ensuring privacy and data integrity.
+
+    Monitoring Clients
+
+        Installed on each server to send performance metrics, logs, and alerts to a monitoring service (like Sumologic, Datadog, or Prometheus).
+
+What firewalls are for
+
+    Firewalls act as a security barrier between trusted internal networks and untrusted external networks.
+
+    They filter traffic based on IP address, port, and protocol rules.
+
+Why traffic is served over HTTPS
+
+    HTTPS encrypts data so that even if someone intercepts it, they can’t read it.
+
+    Protects sensitive information like login credentials and payment details.
+
+    Improves user trust and search engine ranking.
+
+What monitoring is used for
+
+    Purpose: Detect failures, measure performance, track system health, and identify security incidents in real-time.
+
+    Example Metrics: CPU usage, memory usage, database query performance, requests per second, and error rates.
+
+How the monitoring tool is collecting data
+
+    A small monitoring agent/client runs on each server.
+
+    The agent collects system metrics, application logs, and events, then sends them to a centralized monitoring platform.
+
+Monitoring web server QPS (Queries Per Second)
+
+    Enable application or server logs to record requests.
+
+    The monitoring client parses logs in real-time to calculate QPS.
+
+    This can be visualized in a dashboard to spot traffic spikes or performance drops.
+
+Issues with this infrastructure
+
+    Terminating SSL at the load balancer level
+
+        Traffic between the load balancer and application server is not encrypted, making it vulnerable if the internal network is compromised.
+
+    Only one MySQL server accepting writes
+
+        The Primary DB becomes a single point of failure (SPOF). If it goes down, no data changes can be made until it’s restored.
+
+    Servers with all the same components (monolithic setup)
+
+        Increases the attack surface — if one server is compromised, all functions (web, app, database) are at risk.
+
+        Harder to scale since each server is overloaded with multiple roles.
