@@ -1,0 +1,48 @@
+![Server Image](/Server4.png)
+
+
+Scale Up – Explanation
+New Infrastructure Layout
+
+We are now expanding the system to improve availability, scalability, and fault tolerance.
+What’s Added and Why
+
+    Additional Server
+
+        Adds capacity and redundancy.
+
+        Allows load to be distributed more evenly between servers.
+
+    Second Load Balancer (HAProxy) in a Cluster
+
+        The two load balancers run in Active-Passive or Active-Active mode.
+
+        This removes the load balancer as a single point of failure (SPOF).
+
+    Component Separation
+
+        Web Server: Handles static content and HTTP requests.
+
+        Application Server: Runs the application logic (e.g., Django, Flask, Node.js).
+
+        Database Server: Stores and manages application data.
+
+Benefits of Splitting Components
+
+    Scalability: Each tier can be scaled independently based on load.
+
+    Performance: Reduces contention between services (database queries won’t slow down web requests).
+
+    Security: Different security rules can be applied per server type.
+
+High-Level Flow
+
+    User requests www.foobar.com.
+
+    DNS points to one of the load balancers.
+
+    Load balancer routes the request to one of the web servers.
+
+    Web server forwards dynamic requests to the application server.
+
+    Application server queries the database server and returns data.
